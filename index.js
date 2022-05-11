@@ -10,13 +10,13 @@ global.connection = mysql.createConnection(process.env.DATABASE_URL);
 const app = express()
 const port = 3000
 
-const loginRoute = require('./routes/login_route')
+const usersRoute = require('./routes/users_route')
 
 app.use(morgan('tiny'))
 app.use(helmet());
 app.use(express.json())  // convierte el body (bytes) -> objeto json
 
-app.use('/login', loginRoute)
+app.use('/users', usersRoute)
 
 app.get('*', (req, res) => {
     res.json({ error: "404"})
