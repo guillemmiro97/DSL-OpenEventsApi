@@ -11,12 +11,15 @@ const app = express()
 const port = 3000
 
 const usersRoute = require('./routes/users_route')
+const eventsRoute = require('./routes/events_route')
+
 
 app.use(morgan('tiny'))
 app.use(helmet());
 app.use(express.json())  // convierte el body (bytes) -> objeto json
 
 app.use('/users', usersRoute)
+app.use('/events', eventsRoute)
 
 app.get('*', (req, res) => {
     res.json({ error: "404"})
