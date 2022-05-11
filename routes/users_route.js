@@ -6,15 +6,22 @@ const udao = new UsersDAO()
 
 //register
 router.post("/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    console.log(req.body)
+    await udao.insertUser(req.body.name, req.body.last_name, req.body.email, req.body.password, req.body.image)
+    res.json({
+        "name": req.body.name,
+        "last_name": req.body.last_name,
+        "email": req.body.email,
+        "image": req.body.image
+    })
 })
 
 //login
 router.post("/login", async (req, res, next) => {
-    /*const {nombre, password} = req.body;
+    const { email, password } = req.body;
     const users = await udao.getAll();
+    const user = users.find(u => u.email === email && u.password === password);
 
-    const user = users.find(u => u.nombre === nombre && u.password === password);
     console.log(user);
 
     if (user) {
@@ -23,23 +30,30 @@ router.post("/login", async (req, res, next) => {
             const token = jwt.sign({id: user.id, nombre: user.nombre, password: user.password}, process.env.JWT_KEY);
 
             res.json({
-                token: token
+                accessToken: token
             });
         }
     } else {
         res.status(401).send("Incorrect username or password!")
-    }*/
-    res.send("Waiting for implementation")
+    }
 })
 
 //get all users
 router.get("/", async (req, res, next)  => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.send(await udao.getAll())
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get user by id
 router.get("/:id", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.send(await udao.get(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get users by string
