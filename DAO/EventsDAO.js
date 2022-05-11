@@ -1,6 +1,6 @@
 const GenericDAO = require("./generic.dao")
 
-class UsersDAO extends GenericDAO{
+class EventsDAO extends GenericDAO{
 
     constructor(){
         super("user")
@@ -8,4 +8,4 @@ class UsersDAO extends GenericDAO{
 
 }
 
-module.exports = UsersDAO
+module.exports = EventsDAO
