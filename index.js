@@ -13,6 +13,7 @@ const port = 3000
 const usersRoute = require('./routes/users_route')
 const eventsRoute = require('./routes/events_route')
 const assistancesRoute = require('./routes/assistances_route')
+const messagesRoute = require('./routes/messages_route')
 
 
 app.use(morgan('tiny'))
@@ -22,6 +23,7 @@ app.use(express.json())  // convierte el body (bytes) -> objeto json
 app.use('/users', usersRoute)
 app.use('/events', eventsRoute)
 app.use('/assistances', assistancesRoute)
+app.use('/messages', messagesRoute)
 
 app.get('*', (req, res) => {
     res.json({ error: "404"})
