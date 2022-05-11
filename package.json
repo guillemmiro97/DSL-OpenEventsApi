@@ -1,0 +1,31 @@
+{
+  "name": "openeventsapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillemmiro97/DSL-OpenEventsApi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15"
+  },
+  "bugs": {
+    "url": "https://github.com/guillemmiro97/DSL-OpenEventsApi/issues"
+  },
+  "homepage": "https://github.com/guillemmiro97/DSL-OpenEventsApi#readme"
+}
