@@ -14,7 +14,7 @@ const usersRoute = require('./routes/users_route')
 const eventsRoute = require('./routes/events_route')
 const assistancesRoute = require('./routes/assistances_route')
 const messagesRoute = require('./routes/messages_route')
-
+const friendsRoute = require('./routes/friends_route')
 
 app.use(morgan('tiny'))
 app.use(helmet());
@@ -24,6 +24,7 @@ app.use('/users', usersRoute)
 app.use('/events', eventsRoute)
 app.use('/assistances', assistancesRoute)
 app.use('/messages', messagesRoute)
+app.use('/friends', friendsRoute)
 
 app.get('*', (req, res) => {
     res.json({ error: "404"})
