@@ -16,6 +16,7 @@ class UsersDAO extends GenericDAO{
         const [results] = await global.connection.promise()
             .query("INSERT INTO ?? (name, last_name, email, password, image) VALUES (?, ?, ?, ?, ?)"
                 , [this.tabla,this._name, this._last_name, this._email, this._password, this._image])
+
         return results;
     }
 

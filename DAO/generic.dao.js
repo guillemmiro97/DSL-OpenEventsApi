@@ -21,6 +21,8 @@ class GenericDAO {
     async delete(id) {
         this._id = id;
         // DELETE FROM ?? WHERE id = 'params.id'
+        const [results] = await global.connection.promise().query("DELETE FROM ?? WHERE id = ?", [this.tabla, this._id])
+        return results;
     }
 
     async checkToken(req) {
@@ -35,7 +37,7 @@ class GenericDAO {
             console.log(decoded);
             return decoded;
         } catch (error) {
-            return next('401')
+            return ('401')
         }
     }
 }

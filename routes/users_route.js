@@ -8,7 +8,7 @@ const udao = new UsersDAO()
 router.post("/", async (req, res, next) => {
     console.log(req.body)
     await udao.insertUser(req.body.name, req.body.last_name, req.body.email, req.body.password, req.body.image)
-    res.json({
+    res.status(201).json({
         "name": req.body.name,
         "last_name": req.body.last_name,
         "email": req.body.email,
@@ -29,7 +29,7 @@ router.post("/login", async (req, res, next) => {
             const jwt = require('jsonwebtoken');
             const token = jwt.sign({id: user.id, nombre: user.nombre, password: user.password}, process.env.JWT_KEY);
 
-            res.json({
+            res.status(200).json({
                 accessToken: token
             });
         }
@@ -41,7 +41,7 @@ router.post("/login", async (req, res, next) => {
 //get all users
 router.get("/", async (req, res, next)  => {
     if (await udao.checkToken(req)) {
-        res.send(await udao.getAll())
+        res.status(200).send(await udao.getAll())
     } else {
         res.sendStatus(401)
     }
@@ -50,7 +50,7 @@ router.get("/", async (req, res, next)  => {
 //get user by id
 router.get("/:id", async (req, res, next) => {
     if (await udao.checkToken(req)) {
-        res.send(await udao.get(req.params.id))
+        res.status(200).send(await udao.get(req.params.id))
     } else {
         res.sendStatus(401)
     }
@@ -73,7 +73,12 @@ router.put("/", async (req, res, next) => {
 
 //delete authenticated user
 router.delete("/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    const decoded = await udao.checkToken(req)
+    if (decoded) {
+        res.status(204).send(await udao.delete(decoded.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //USERS - EVENTS

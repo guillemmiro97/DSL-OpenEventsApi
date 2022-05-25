@@ -3,7 +3,6 @@ Users
 GET  /users/search
 GET  /users/{id}/statistics
 PUT  /users
-DELETE  /users
 GET  /users/{id}/events
 GET  /users/{id}/events/future
 GET  /users/{id}/events/finished
