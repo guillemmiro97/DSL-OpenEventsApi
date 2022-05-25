@@ -58,7 +58,18 @@ router.get("/:id", async (req, res, next) => {
 
 //get users by string
 router.get("/search", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    //TODO: get query params is not working, do not know why
+    const s = req.query.s;
+    console.log(s)
+    if (await udao.checkToken(req)) {
+        let users = await udao.getAll()
+
+        let name = users.filter(name => name.includes(req.query.s))
+
+        res.status(200).send(req)
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get user statisticts by id
