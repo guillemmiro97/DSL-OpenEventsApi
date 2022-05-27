@@ -47,26 +47,19 @@ router.get("/", async (req, res, next)  => {
     }
 })
 
-//get user by id
-router.get("/:id", async (req, res, next) => {
+//get users by string
+router.get("/search", async (req, res, next) => {
     if (await udao.checkToken(req)) {
-        res.status(200).send(await udao.get(req.params.id))
+        res.status(200).send(await udao.getUserByString(req.query.s))
     } else {
         res.sendStatus(401)
     }
 })
 
-//get users by string
-router.get("/search", async (req, res, next) => {
-    //TODO: get query params is not working, do not know why
-    const s = req.query.s;
-    console.log(s)
+//get user by id
+router.get("/:id", async (req, res, next) => {
     if (await udao.checkToken(req)) {
-        let users = await udao.getAll()
-
-        let name = users.filter(name => name.includes(req.query.s))
-
-        res.status(200).send(req)
+        res.status(200).send(await udao.get(req.params.id))
     } else {
         res.sendStatus(401)
     }

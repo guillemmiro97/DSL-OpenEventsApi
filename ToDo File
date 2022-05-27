@@ -1,6 +1,5 @@
 Users
 
-GET  /users/search
 GET  /users/{id}/statistics
 PUT  /users
 GET  /users/{id}/events

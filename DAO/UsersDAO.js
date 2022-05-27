@@ -20,6 +20,17 @@ class UsersDAO extends GenericDAO{
         return results;
     }
 
+    async getUserByString (string) {
+        this._string = string
+        const query = `SELECT * FROM ?? WHERE name LIKE '%${this._string}%' OR last_name LIKE '%${this._string}%' OR email LIKE '%${this._string}%'`
+
+        const [results] = await global.connection.promise().query(query, [this.tabla])
+
+        console.log(results)
+
+        return results
+    }
+
     async updateUser(id, password){
         this._id = id
         this._password = password
