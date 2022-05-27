@@ -27,7 +27,7 @@ router.post("/login", async (req, res, next) => {
     if (user) {
         if (user.password === password) {
             const jwt = require('jsonwebtoken');
-            const token = jwt.sign({id: user.id, nombre: user.nombre, password: user.password}, process.env.JWT_KEY);
+            const token = jwt.sign({id: user.id, name: user.name, password: user.password}, process.env.JWT_KEY);
 
             res.status(200).json({
                 accessToken: token
@@ -72,7 +72,21 @@ router.get("/:id/statistics", async (req, res, next) => {
 
 //edit specified fields of the authenticated user
 router.put("/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    const decoded = await udao.checkToken(req)
+    if (decoded) {
+        let user = await udao.get(decoded.id)
+        user = user[0]
+
+        if (req.body.name) user.name = req.body.name
+        if (req.body.last_name) user.last_name = req.body.last_name
+        if (req.body.email) user.email = req.body.email
+        if (req.body.password) user.password = req.body.password
+        if (req.body.image) user.image = req.body.image
+
+        res.status(204).send(await udao.updateUser(user.id, user.name, user.last_name, user.email, user.password, user.image))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //delete authenticated user

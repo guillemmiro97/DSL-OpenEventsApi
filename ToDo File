@@ -1,7 +1,6 @@
 Users
 
 GET  /users/{id}/statistics
-PUT  /users
 GET  /users/{id}/events
 GET  /users/{id}/events/future
 GET  /users/{id}/events/finished
@@ -9,7 +8,7 @@ GET  /users/{id}/events/current
 GET  /users/{id}/assistances
 GET  /users/{id}/assistances/future
 GET  /users/{id}/assistances/finished
-GET /users/{id}/friends
+GET  /users/{id}/friends
 
 Events
 POST  /events
