@@ -6,7 +6,12 @@ const edao = new EventsDAO()
 
 //create event
 router.post("/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await edao.checkToken(req)) {
+        console.log(req.body)
+        res.status(200).send(await edao.insertEvent(req.body))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get all future events
