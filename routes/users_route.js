@@ -4,6 +4,9 @@ const router = express.Router()
 const UsersDAO = require("../DAO/UsersDAO");
 const udao = new UsersDAO()
 
+const EventsDAO = require("../DAO/EventsDAO");
+const edao = new EventsDAO()
+
 //register
 router.post("/", async (req, res, next) => {
     console.log(req.body)
@@ -101,9 +104,13 @@ router.delete("/", async (req, res, next) => {
 
 //USERS - EVENTS
 
-//get user events by id
+//get the events created by the user
 router.get("/:id/events", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.status(200).send(await edao.getEventsByUserId(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get user future events by id
