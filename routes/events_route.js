@@ -54,7 +54,32 @@ router.get("/:id", async (req, res, next) => {
 
 //Edits specified fields of the event with matching id
 router.put("/:id", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await edao.checkToken(req)) {
+        let event = await edao.get(req.params.id)
+        event = event[0]
+        let newEvent = req.body
+
+        if (req.body.name) event.name = newEvent.name
+        if (req.body.date) event.date = newEvent.date
+        if (req.body.image) event.image = newEvent.image
+        if (req.body.location) event.location = newEvent.location
+        if (req.body.description) event.description = newEvent.description
+        if (req.body.eventStart_date) event.eventStart_date = newEvent.eventStart_date
+        if (req.body.eventEnd_date) event.eventEnd_date = newEvent.eventEnd_date
+        if (req.body.n_participators) event.n_participators = newEvent.n_participators
+        if (req.body.type) event.type = newEvent.type
+
+        let result = await edao.updateEvent(event)
+        console.log(result)
+
+        if (result.affectedRows > 0) {
+            res.status(200).send(event)
+        } else {
+            res.status(400).send("Event not updated")
+        }
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Deletes event with matching id

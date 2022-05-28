@@ -13,7 +13,6 @@ GET  /users/{id}/friends
 Events
 GET  /events/best
 GET  /events/search
-PUT  /events/{id}
 GET  /events/{id}/assistances
 GET  /events/{event_id}/assistances/{user_id}
 POST  /events/{id}/assistances
