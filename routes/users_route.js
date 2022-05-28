@@ -107,7 +107,7 @@ router.delete("/", async (req, res, next) => {
 //get the events created by the user
 router.get("/:id/events", async (req, res, next) => {
     if (await udao.checkToken(req)) {
-        res.status(200).send(await edao.getEventsByUserId(req.params.id))
+        res.status(200).send(await edao.getEventsByUserId(req.params.id, ""))
     } else {
         res.sendStatus(401)
     }
@@ -115,17 +115,29 @@ router.get("/:id/events", async (req, res, next) => {
 
 //get user future events by id
 router.get("/:id/events/future", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.status(200).send(await edao.getEventsByUserId(req.params.id, "future"))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get user finished events by id
 router.get("/:id/events/finished", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.status(200).send(await edao.getEventsByUserId(req.params.id, "finished"))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get user current events by id
 router.get("/:id/events/current", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.status(200).send(await edao.getEventsByUserId(req.params.id, "current"))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get user assistance's by id

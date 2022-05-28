@@ -20,11 +20,23 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
-    async getEventsByUserId(id) {
+    async getEventsByUserId(id, type) {
         this._id = id
 
+        let query;
+
+        if (type === "future") {
+            query = "SELECT * FROM ?? WHERE owner_id = ? AND eventStart_date > NOW()"
+        } else if (type === "finished") {
+            query = "SELECT * FROM ?? WHERE owner_id = ? AND eventEnd_date < NOW()"
+        }  else if (type === "current") {
+            query = "SELECT * FROM ?? WHERE owner_id = ? AND eventStart_date > NOW() AND eventEnd_date < NOW()"
+        } else {
+            query = "SELECT * FROM ?? WHERE owner_id = ?"
+        }
+
         const [results] = await global.connection.promise()
-            .query("SELECT * FROM ?? WHERE owner_id = ?", [this.tabla, this._id])
+            .query(query, [this.tabla, this._id])
 
         return results;
     }
