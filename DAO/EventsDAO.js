@@ -14,8 +14,15 @@ class EventsDAO extends GenericDAO {
                 , [this.tabla, this._event.name, this._event.image,
                     this._event.location, this._event.description,
                     new Date(this._event.eventStart_date), new Date(this._event.eventEnd_date),
-                    this._event.n_participators, this._event.type,
-                    this._event.owner_id, new Date(this._event.date)])
+                    parseInt(this._event.n_participators), this._event.type,
+                    parseInt(this._event.owner_id), new Date(this._event.date)])
+
+        return results;
+    }
+
+    async getFutureEvents() {
+        const [results] = await global.connection.promise()
+            .query("SELECT * FROM ?? WHERE eventStart_date > NOW()", [this.tabla])
 
         return results;
     }

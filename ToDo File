@@ -11,13 +11,9 @@ GET  /users/{id}/assistances/finished
 GET  /users/{id}/friends
 
 Events
-POST  /events
-GET  /events
-GET  /events/{id}
 GET  /events/best
 GET  /events/search
 PUT  /events/{id}
-DELETE  /events/{id}
 GET  /events/{id}/assistances
 GET  /events/{event_id}/assistances/{user_id}
 POST  /events/{id}/assistances
