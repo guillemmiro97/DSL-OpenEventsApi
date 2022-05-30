@@ -23,10 +23,7 @@ class MessagesDAO extends GenericDAO {
         if (results.affectedRows > 0) {
             let lastMessage = await this.getLastMessage()
             return lastMessage;
-        } else {
-
         }
-
     }
 
     async getLastMessage() {
@@ -36,6 +33,21 @@ class MessagesDAO extends GenericDAO {
 
         return results
     }
+
+    async getMessages(id) {
+        const query = `SELECT * FROM ?? WHERE user_id_send = ? OR user_id_recived = ? ORDER BY timeStamp DESC`
+
+        const [results] = await global.connection.promise().query(query, [this.tabla, id, id])
+
+        if (results.length > 0) {
+            return results
+        } else {
+            return "No messages for the user authinticated"
+        }
+
+    }
+
+
 
 }
 

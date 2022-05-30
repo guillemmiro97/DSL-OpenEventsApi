@@ -23,7 +23,11 @@ router.get("/users/", async(req, res, next) => {
 
 //Gets all messages between the external user with matching id and the authenticated user
 router.get("/:id/", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await mdao.checkToken(req)) {
+        res.status(200).send(await mdao.getMessages(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 module.exports = router;
