@@ -22,9 +22,8 @@ PUT  /assistances/{user_id}/{event_id}
 DELETE  /assistances/{user_id}/{event_id}
 
 Messages
-POST  /messages
 GET  /messages/users
-GET  /messages/{id}
+
 
 Friends
 GET  /friends/requests
