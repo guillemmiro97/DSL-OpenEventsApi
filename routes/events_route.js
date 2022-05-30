@@ -5,10 +5,10 @@ const EventsDAO = require("../DAO/EventsDAO")
 const edao = new EventsDAO()
 
 //create event
-router.post("/", async (req, res, next) => {
+router.post("/", async(req, res, next) => {
     if (await edao.checkToken(req)) {
         let event = req.body
-        //validation of the event
+            //validation of the event
         if (Object.keys(event).length < 10) {
             res.status(400).send("Invalid event")
         } else {
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
 })
 
 //get all future events
-router.get("/", async (req, res, next) => {
+router.get("/", async(req, res, next) => {
     if (await edao.checkToken(req)) {
         res.status(200).send(await edao.getFutureEvents())
     } else {
@@ -34,17 +34,21 @@ router.get("/", async (req, res, next) => {
 })
 
 //Gets all future events in descending order based on the average score of the creator's old events.
-router.get("/best", async (req, res, next) => {
+router.get("/best", async(req, res, next) => {
     res.send("Waiting for implementation")
 })
 
 //Searches events with location, keyword in name, or date containing or matching the values of the query parameters.
-router.get("/search", async (req, res, next) => {
-    res.send("Waiting for implementation")
+router.get("/search", async(req, res, next) => {
+    if (await edao.checkToken(req)) {
+        res.status(200).send(await edao.getEventByString(req.query.location, req.query.keyword, req.query.date))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //get event by id
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", async(req, res, next) => {
     if (await edao.checkToken(req)) {
         res.status(200).send(await edao.get(req.params.id))
     } else {
@@ -53,7 +57,7 @@ router.get("/:id", async (req, res, next) => {
 })
 
 //Edits specified fields of the event with matching id
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", async(req, res, next) => {
     if (await edao.checkToken(req)) {
         let event = await edao.get(req.params.id)
         event = event[0]
@@ -83,7 +87,7 @@ router.put("/:id", async (req, res, next) => {
 })
 
 //Deletes event with matching id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", async(req, res, next) => {
     if (await edao.checkToken(req)) {
         res.status(204).send(await edao.delete(req.params.id))
     } else {
@@ -92,27 +96,27 @@ router.delete("/:id", async (req, res, next) => {
 })
 
 //Gets all assistances for event with matching id
-router.get("/:id/assistances", async (req, res, next) => {
+router.get("/:id/assistances", async(req, res, next) => {
     res.send("Waiting for implementation")
 })
 
 //Gets assistance of user with matching id for event with matching id
-router.get("/:event_id/assistances/:user_id", async (req, res, next) => {
+router.get("/:event_id/assistances/:user_id", async(req, res, next) => {
     res.send("Waiting for implementation")
 })
 
 //Creates assistance of authenticated user for event with matching id
-router.post("/:id/assistances/", async (req, res, next) => {
+router.post("/:id/assistances/", async(req, res, next) => {
     res.send("Waiting for implementation")
 })
 
 //Edits assistance of authenticated user for the event with matching id
-router.put("/:id/assistances", async (req, res, next) => {
+router.put("/:id/assistances", async(req, res, next) => {
     res.send("Waiting for implementation")
 })
 
 //Deletes assistance of authenticated user for event with matching id
-router.delete("/:id/assistances", async (req, res, next) => {
+router.delete("/:id/assistances", async(req, res, next) => {
     res.send("Waiting for implementation")
 })
 
