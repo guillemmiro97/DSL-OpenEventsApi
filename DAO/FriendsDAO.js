@@ -6,11 +6,12 @@ class FriendsDAO extends GenericDAO{
         super("friends")
     }
 
-    async getFriendRequests (userId){
+    async getFriendRequests (userId, status){
         this._userId = userId
+        this._status = status
 
         const [results] = await global.connection.promise()
-            .query("SELECT * FROM ?? WHERE user_id_friend = ? AND status = 0", [this.tabla, this._userId])
+            .query("SELECT * FROM ?? WHERE user_id_friend = ? AND status = ?", [this.tabla, this._userId, this._status])
         return results
     }
 

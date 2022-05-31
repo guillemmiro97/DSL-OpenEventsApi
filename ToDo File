@@ -13,7 +13,3 @@ GET  /events/{event_id}/assistances/{user_id}
 POST  /events/{id}/assistances
 PUT  /events/{id}/assistances
 DELETE  /events/{id}/assistances
-
-Friends
-GET  /friends/requests
-GET  /friends

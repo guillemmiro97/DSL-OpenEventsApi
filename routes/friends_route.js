@@ -9,14 +9,27 @@ const udao = new UsersDAO()
 
 //Gets all external users that are friends with the authenticated user
 router.get("/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    let decoded = await fdao.checkToken(req)
+    if (decoded) {
+        let results = await fdao.getFriendRequests(decoded.id, 1)
+        let users = []
+        if (results[0]) {
+            for (let i = 0; i < results.length; i++) {
+                let user = await udao.get(results[i].user_id)
+                users.push(user)
+            }
+        }
+        res.send(users)
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Gets all external users that have sent a friendship request to the authenticated user
 router.get("/requests/", async (req, res, next) => {
     let decoded = await fdao.checkToken(req)
     if (decoded) {
-        let results = await fdao.getFriendRequests(decoded.id)
+        let results = await fdao.getFriendRequests(decoded.id, 0)
         let users = []
         if (results[0]) {
             for (let i = 0; i < results.length; i++) {
