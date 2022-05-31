@@ -28,20 +28,23 @@ router.get("/users/", async (req, res, next) => {
     let decoded = await mdao.checkToken(req)
     if (decoded) {
         let messages = await mdao.getMessages(decoded.id)
-        console.log(messages)
 
-        //TODO: fix the error with "No messages for the user authinticated" lenght with null
-
-        let users = []
-        for (let i = 0; i < messages.length; i++) {
-            if (messages[i].user_id_send !== decoded.id) {
-                users.push((await udao.get(messages[i].user_id_send))[0])
-            } else {
-                users.push((await udao.get(messages[i].user_id_recived))[0])
+        if (messages[0].id) {
+            let users = []
+            for (let i = 0; i < messages.length; i++) {
+                if (messages[i].user_id_send !== decoded.id) {
+                    users.push((await udao.get(messages[i].user_id_send))[0])
+                } else {
+                    users.push((await udao.get(messages[i].user_id_recived))[0])
+                }
             }
-        }
 
-        res.status(200).send(users)
+            res.status(200).send(users)
+        } else {
+            res.status(404).json({
+                error: "No messages found"
+            })
+        }
     } else {
         res.sendStatus(401)
     }
