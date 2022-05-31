@@ -66,12 +66,11 @@ class EventsDAO extends GenericDAO {
         this._keyword = keyword
         this._date = date
         let query = ""
-            //CHECK WITH GUILLEM IF THIS IS THE RIGHT WAY TO DO IT
-            //CHECK WITH GUILLEM IF THIS IS THE RIGHT WAY TO DO IT
+
         if (this._location) {
             if (this._keyword) {
                 if (this._date) {
-                    query = `SELECT * FROM ?? WHERE name LIKE '%${this._location}%' OR location LIKE '%${this._location}%' OR date LIKE '%${this._date}%'`
+                    query = `SELECT * FROM ?? WHERE name LIKE '%${this._keyword}%' OR location LIKE '%${this._location}%' OR date LIKE '%${this._date}%'`
                 } else {
                     query = `SELECT * FROM ?? WHERE name LIKE '%${this._keyword}%' OR location LIKE '%${this._location}%'`
                 }
