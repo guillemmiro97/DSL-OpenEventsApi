@@ -1,21 +1,36 @@
 const GenericDAO = require("./generic.dao")
 
-class AssistancesDAO extends GenericDAO{
+class AssistancesDAO extends GenericDAO {
 
-    constructor(){
-        super("user")
+    constructor() {
+        super("assistance")
     }
 
-    async insertUser(name, password){
-        this._name = name
-        this._password = password
+    async assistEvent(user_id, event_id) {
+        this._user_id = user_id
+        this._event_id = event_id
+
+        const [results] = await global.connection.promise()
+            .query("INSERT INTO ?? (user_id, event_id) VALUES (?, ?)", [this.tabla, this._user_id, this._event_id])
+
+        return ""
     }
 
-    async updateUser(id, password){
-        this._id = id
-        this._password = password
-    }
+    async getAssistances(user_id, event_id) {
+        this._event_id = event_id
+        this._user_id = user_id
 
+        const [results] = await global.connection.promise()
+            .query("SELECT * FROM ?? WHERE event_id = ? AND user_id = ?", [this.tabla, this._event_id, this._user_id])
+
+        if (results.length > 0) {
+            return results
+        } else {
+            return "No assistances found"
+        }
+
+
+    }
 }
 
 module.exports = AssistancesDAO

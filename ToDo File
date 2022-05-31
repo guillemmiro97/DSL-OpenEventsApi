@@ -8,7 +8,6 @@ GET  /users/{id}/friends
 
 Events
 GET  /events/best
-GET  /events/search
 GET  /events/{id}/assistances
 GET  /events/{event_id}/assistances/{user_id}
 POST  /events/{id}/assistances
@@ -16,8 +15,8 @@ PUT  /events/{id}/assistances
 DELETE  /events/{id}/assistances
 
 Assistances
-GET  /assistances/{user_id}/{event_id}
-POST  /assistances/{user_id}/{event_id}
+GET  /assistances/{user_id}/{event_id} --> maomeno
+POST  /assistances/{user_id}/{event_id} --> maomeno
 PUT  /assistances/{user_id}/{event_id}
 DELETE  /assistances/{user_id}/{event_id}
 
