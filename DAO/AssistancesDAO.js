@@ -13,7 +13,7 @@ class AssistancesDAO extends GenericDAO {
         const [results] = await global.connection.promise()
             .query("INSERT INTO ?? (user_id, event_id) VALUES (?, ?)", [this.tabla, this._user_id, this._event_id])
 
-        return ""
+        return results
     }
 
     async getAssistances(user_id, event_id) {
