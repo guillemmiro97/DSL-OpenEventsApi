@@ -14,15 +14,8 @@ POST  /events/{id}/assistances
 PUT  /events/{id}/assistances
 DELETE  /events/{id}/assistances
 
-Assistances
-GET  /assistances/{user_id}/{event_id} --> maomeno
-POST  /assistances/{user_id}/{event_id} --> maomeno
-PUT  /assistances/{user_id}/{event_id}
-DELETE  /assistances/{user_id}/{event_id}
-
 Messages
 GET  /messages/users
-
 
 Friends
 GET  /friends/requests

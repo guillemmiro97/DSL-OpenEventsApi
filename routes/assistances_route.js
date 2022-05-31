@@ -53,7 +53,28 @@ router.post("/:user_id/:event_id/", async (req, res, next) => {
 
 //Edits assistance of user with matching id for the event with matching id
 router.put("/:user_id/:event_id/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await adao.checkToken(req)) {
+        if (await udao.get(req.params.user_id) && await edao.get(req.params.event_id)) {
+            if (await adao.getAssistances(req.params.user_id, req.params.event_id) === "No assistances found") {
+                res.status(404).json({
+                    error: "Assistance not found"
+                })
+            } else {
+                let result = await adao.editAssistance(req.params.user_id, req.params.event_id, req.body.puntuation, req.body.comentary)
+                if (result.affectedRows > 0) {
+                    res.sendStatus(200)
+                } else {
+                    res.status(400).send("Assistance not edited")
+                }
+            }
+        } else {
+            res.status(404).json({
+                error: "User or event not found"
+            })
+        }
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Deletes assistance of user with matching id for the event with matching id
