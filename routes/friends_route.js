@@ -33,12 +33,29 @@ router.post("/:id/", async (req, res, next) => {
 
 //Accepts friendship request from external user to authenticated user
 router.put("/:id/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    let decoded = await fdao.checkToken(req)
+    if (decoded) {
+        if (await udao.get(req.params.id)) {
+            res.status(201).send(await fdao.updateFriendRequest(decoded.id, req.params.id))
+        } else {
+            res.status(400).send("User not found")
+        }
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Rejects friendship request from external user to authenticated user
 router.delete("/:id/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await fdao.checkToken(req)) {
+        if (await udao.get(req.params.id)) {
+            res.status(201).send(await fdao.deleteFriendRequest(req.params.id))
+        } else {
+            res.status(400).send("User not found")
+        }
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 module.exports = router;
