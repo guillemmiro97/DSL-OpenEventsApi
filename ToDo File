@@ -14,12 +14,8 @@ POST  /events/{id}/assistances
 PUT  /events/{id}/assistances
 DELETE  /events/{id}/assistances
 
-Messages
-GET  /messages/users
-
 Friends
 GET  /friends/requests
 GET  /friends
-POST  /friends/{id}
 PUT  /friends/{id}
 DELETE  /friends/{id}

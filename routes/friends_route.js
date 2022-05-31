@@ -4,6 +4,9 @@ const router = express.Router()
 const FriendsDAO = require("../DAO/FriendsDAO");
 const fdao = new FriendsDAO()
 
+const UsersDAO = require("../DAO/UsersDAO");
+const udao = new UsersDAO()
+
 //Gets all external users that are friends with the authenticated user
 router.get("/", async (req, res, next) => {
     res.send("Waiting for implementation")
@@ -16,7 +19,16 @@ router.get("/requests/", async (req, res, next) => {
 
 //Creates friendship request to external user with match id from authenticated user
 router.post("/:id/", async (req, res, next) => {
-    res.send("Waiting for implementation")
+    let decoded = await fdao.checkToken(req)
+    if (decoded) {
+        if (await udao.get(req.params.id)) {
+            res.status(201).send(await fdao.postFriendRequest(decoded.id, req.params.id))
+        } else {
+            res.status(400).send("User not found")
+        }
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Accepts friendship request from external user to authenticated user

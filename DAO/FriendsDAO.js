@@ -3,19 +3,17 @@ const GenericDAO = require("./generic.dao")
 class FriendsDAO extends GenericDAO{
 
     constructor(){
-        super("user")
+        super("friends")
     }
 
-    async insertUser(name, password){
-        this._name = name
-        this._password = password
-    }
+    async postFriendRequest(userId, friendId) {
+        this._userId = userId
+        this._friendId = friendId
 
-    async updateUser(id, password){
-        this._id = id
-        this._password = password
+        const [results] = await global.connection.promise()
+            .query("INSERT INTO ?? (user_id, user_id_friend, status) VALUES (?, ?, 0)", [this.tabla, this._userId,  this._friendId])
+        return results
     }
-
 }
 
 module.exports = FriendsDAO
