@@ -28,8 +28,16 @@ class AssistancesDAO extends GenericDAO {
         } else {
             return "No assistances found"
         }
+    }
 
+    async deleteAssistance (user_id, event_id) {
+        this._event_id = event_id
+        this._user_id = user_id
 
+        const [results] = await global.connection.promise()
+            .query("DELETE FROM ?? WHERE event_id = ? AND user_id = ?", [this.tabla, this._event_id, this._user_id])
+
+        return results
     }
 }
 
