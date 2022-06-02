@@ -6,6 +6,11 @@ class EventsDAO extends GenericDAO {
         super("events")
     }
 
+    /**
+     * 
+     * @param {*} event 
+     * @returns event inserted
+     */
     async insertEvent(event) {
         this._event = event
 
@@ -20,6 +25,12 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
+    /**
+     * 
+     * @param {*} id 
+     * @param {*} type 
+     * @returns list of events by user id
+     */
     async getEventsByUserId(id, type) {
         this._id = id
 
@@ -41,12 +52,23 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
+
+    /**
+     * 
+     * @returns list of future
+     */
     async getFutureEvents() {
         const [results] = await global.connection.promise()
             .query("SELECT * FROM ?? WHERE eventStart_date > NOW()", [this.tabla])
 
         return results;
     }
+
+    /**
+     * 
+     * @param {*} event 
+     * @returns event updated result
+     */
 
     async updateEvent(event) {
         this._event = event
@@ -61,6 +83,13 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
+    /**
+     * 
+     * @param {*} location 
+     * @param {*} keyword 
+     * @param {*} date 
+     * @returns search event by parameter 
+     */
     async getEventByString(location, keyword, date) {
         this._location = location
         this._keyword = keyword
@@ -107,6 +136,12 @@ class EventsDAO extends GenericDAO {
 
     }
 
+    /**
+     * 
+     * @param {*} eventId 
+     * @param {*} userId 
+     * @returns assist event result
+     */
     async assistEvent(eventId, userId) {
         this._eventId = eventId
         this._userId = userId
@@ -117,7 +152,12 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
-
+    /**
+     * 
+     * @param {*} eventId 
+     * @param {*} userId 
+     * @returns get assistances by  comobination of event and user id
+     */
     async getAssistances(eventId, userId) {
         this._eventId = eventId
         this._userId = userId
@@ -132,6 +172,11 @@ class EventsDAO extends GenericDAO {
         }
     }
 
+    /**
+     * 
+     * @param {*} eventId 
+     * @returns Get assistances by only event id. 
+     */
     async getAssistancesByEventId(eventId) {
         this._eventId = eventId
 
@@ -170,6 +215,14 @@ class EventsDAO extends GenericDAO {
 
     }
 
+    /**
+     * 
+     * @param {*} eventId 
+     * @param {*} userId 
+     * @param {*} puntuation 
+     * @param {*} comentary 
+     * @returns update assistances by comobination of event and user id
+     */
     async editAssistance(eventId, userId, puntuation, comentary) {
 
         this._eventId = eventId
@@ -177,8 +230,20 @@ class EventsDAO extends GenericDAO {
         this._puntuation = puntuation
         this._comentary = comentary
 
+
+        let query = ""
+
+        if (this._puntuation && this._comentary) {
+            query = `UPDATE ?? SET comentary = "${this._comentary}", puntuation = ${this._puntuation} WHERE user_id = ? AND event_id = ?`
+        } else if (this._puntuation) {
+            query = `UPDATE ?? SET puntuation = ${this._puntuation} WHERE user_id = ? AND event_id = ?`
+        } else if (this._comentary) {
+            query = `UPDATE ?? SET comentary = "${this._comentary}" WHERE user_id = ? AND event_id = ?`
+        }
+
         const [results] = await global.connection.promise()
-            .query("UPDATE assistance SET puntuation = ?, comentary = ? WHERE event_id = ? AND user_id = ?", [this._puntuation, this._comentary, this._eventId, this._userId])
+            .query(query, [this.tabla, this._user_id, this._event_id])
+
 
         if (results.affectedRows > 0) {
             return results
@@ -187,6 +252,12 @@ class EventsDAO extends GenericDAO {
         }
     }
 
+    /**
+     * 
+     * @param {*} eventId 
+     * @param {*} userId 
+     * @returns delete assistances by comobination of event and user id
+     */
     async deleteAssistance(eventId, userId) {
         this._eventId = eventId
         this._userId = userId

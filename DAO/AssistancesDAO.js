@@ -6,6 +6,12 @@ class AssistancesDAO extends GenericDAO {
         super("assistance")
     }
 
+    /**
+     * 
+     * @param {*} user_id 
+     * @param {*} event_id 
+     * @returns assit event result
+     */
     async assistEvent(user_id, event_id) {
         this._user_id = user_id
         this._event_id = event_id
@@ -16,6 +22,12 @@ class AssistancesDAO extends GenericDAO {
         return results
     }
 
+    /**
+     * 
+     * @param {*} user_id 
+     * @param {*} event_id 
+     * @returns get assistances by  comobination of event and user id
+     */
     async getAssistances(user_id, event_id) {
         this._event_id = event_id
         this._user_id = user_id
@@ -30,6 +42,14 @@ class AssistancesDAO extends GenericDAO {
         }
     }
 
+    /**
+     * 
+     * @param {*} user_id 
+     * @param {*} event_id 
+     * @param {*} puntuation 
+     * @param {*} comentary 
+     * @returns update assistances by comobination of event and user id
+     */
     async editAssistance(user_id, event_id, puntuation, comentary) {
         this._user_id = user_id
         this._event_id = event_id
@@ -52,6 +72,12 @@ class AssistancesDAO extends GenericDAO {
         return results
     }
 
+    /**
+     * 
+     * @param {*} user_id 
+     * @param {*} event_id 
+     * @returns delete assistances by comobination of event and user id
+     */
     async deleteAssistance(user_id, event_id) {
         this._event_id = event_id
         this._user_id = user_id

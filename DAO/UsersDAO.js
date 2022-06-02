@@ -6,6 +6,15 @@ class UsersDAO extends GenericDAO {
         super("users")
     }
 
+    /**
+     * 
+     * @param {*} name 
+     * @param {*} last_name 
+     * @param {*} email 
+     * @param {*} password 
+     * @param {*} image 
+     * @returns inserted user result
+     */
     async insertUser(name, last_name, email, password, image) {
         this._name = name
         this._last_name = last_name
@@ -19,6 +28,11 @@ class UsersDAO extends GenericDAO {
         return results;
     }
 
+    /**
+     * 
+     * @param {*} string 
+     * @returns get user by search string
+     */
     async getUserByString(string) {
         this._string = string
         const query = `SELECT * FROM ?? WHERE name LIKE '%${this._string}%' OR last_name LIKE '%${this._string}%' OR email LIKE '%${this._string}%'`
@@ -30,6 +44,16 @@ class UsersDAO extends GenericDAO {
         return results
     }
 
+    /**
+     * 
+     * @param {*} id 
+     * @param {*} name 
+     * @param {*} last_name 
+     * @param {*} email 
+     * @param {*} password 
+     * @param {*} image 
+     * @returns updated user result
+     */
     async updateUser(id, name, last_name, email, password, image) {
         this._id = id
         this._name = name
@@ -43,6 +67,13 @@ class UsersDAO extends GenericDAO {
 
         return results;
     }
+
+    /**
+     * 
+     * @param {*} id 
+     * @param {*} mode 
+     * @returns get user assistances by id and mode result 
+     */
 
     async getUserAsistancesById(id, mode) {
         this._id = id

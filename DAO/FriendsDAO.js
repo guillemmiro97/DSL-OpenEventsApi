@@ -1,12 +1,18 @@
 const GenericDAO = require("./generic.dao")
 
-class FriendsDAO extends GenericDAO{
+class FriendsDAO extends GenericDAO {
 
-    constructor(){
+    constructor() {
         super("friends")
     }
 
-    async getFriendRequests (userId, status){
+    /**
+     * 
+     * @param {*} userId 
+     * @param {*} status 
+     * @returns get friends by user id and status
+     */
+    async getFriendRequests(userId, status) {
         this._userId = userId
         this._status = status
 
@@ -15,24 +21,41 @@ class FriendsDAO extends GenericDAO{
         return results
     }
 
+    /**
+     * 
+     * @param {*} userId 
+     * @param {*} friendId 
+     * @returns post friend request result
+     */
     async postFriendRequest(userId, friendId) {
         this._userId = userId
         this._friendId = friendId
 
         const [results] = await global.connection.promise()
-            .query("INSERT INTO ?? (user_id, user_id_friend, status) VALUES (?, ?, 0)", [this.tabla, this._userId,  this._friendId])
+            .query("INSERT INTO ?? (user_id, user_id_friend, status) VALUES (?, ?, 0)", [this.tabla, this._userId, this._friendId])
         return results
     }
 
+    /**
+     * 
+     * @param {*} userId 
+     * @param {*} friendId 
+     * @returns update friend request result
+     */
     async updateFriendRequest(userId, friendId) {
         this._userId = userId
         this._friendId = friendId
 
         const [results] = await global.connection.promise()
-            .query("UPDATE ?? SET status = 1 WHERE user_id = ? AND user_id_friend = ?", [this.tabla, this._userId,  this._friendId])
+            .query("UPDATE ?? SET status = 1 WHERE user_id = ? AND user_id_friend = ?", [this.tabla, this._userId, this._friendId])
         return results
     }
 
+    /**
+     * 
+     * @param {*} friendId 
+     * @returns delete friend request result
+     */
     async deleteFriendRequest(friendId) {
         this._friendId = friendId
 
