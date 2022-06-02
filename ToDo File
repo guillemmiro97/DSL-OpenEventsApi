@@ -5,4 +5,4 @@ GET  /users/{id}/friends
 
 Events
 GET  /events/best
-DELETE  /events/{id}/assistances
+DELETE  /events/{id}/assistances --> funciona, pero no muestra nada la response. mirar por qué. 

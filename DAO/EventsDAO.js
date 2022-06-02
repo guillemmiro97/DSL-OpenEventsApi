@@ -162,7 +162,12 @@ class EventsDAO extends GenericDAO {
 
         }
 
-        return results;
+        if (results.length > 0) {
+            return results
+        } else {
+            return "No assistances found"
+        }
+
     }
 
     async editAssistance(eventId, userId, puntuation, comentary) {
@@ -179,6 +184,20 @@ class EventsDAO extends GenericDAO {
             return results
         } else {
             return "No assistances modified"
+        }
+    }
+
+    async deleteAssistance(eventId, userId) {
+        this._eventId = eventId
+        this._userId = userId
+
+        const [results] = await global.connection.promise()
+            .query("DELETE FROM assistance WHERE event_id = ? AND user_id = ?", [this._eventId, this._userId])
+
+        if (results.affectedRows > 0) {
+            return results
+        } else {
+            return "No assistances deleted"
         }
     }
 }

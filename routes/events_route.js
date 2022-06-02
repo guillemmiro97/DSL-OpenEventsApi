@@ -139,7 +139,13 @@ router.put("/:id/assistances", async(req, res, next) => {
 
 //Deletes assistance of authenticated user for event with matching id
 router.delete("/:id/assistances", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    let decoded = await edao.checkToken(req)
+    if (decoded) {
+        let result = await edao.deleteAssistance(req.params.id, decoded.id)
+        res.status(204).send(result)
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 module.exports = router;
