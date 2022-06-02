@@ -1,15 +1,11 @@
 Users
 
 GET  /users/{id}/statistics
-GET  /users/{id}/assistances
-GET  /users/{id}/assistances/future
-GET  /users/{id}/assistances/finished
 GET  /users/{id}/friends
 
 Events
 GET  /events/best
 GET  /events/{id}/assistances
 GET  /events/{event_id}/assistances/{user_id}
-POST  /events/{id}/assistances
 PUT  /events/{id}/assistances
 DELETE  /events/{id}/assistances

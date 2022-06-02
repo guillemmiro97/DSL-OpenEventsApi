@@ -107,7 +107,13 @@ router.get("/:event_id/assistances/:user_id", async(req, res, next) => {
 
 //Creates assistance of authenticated user for event with matching id
 router.post("/:id/assistances/", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    let decoded = await edao.checkToken(req)
+    if (decoded) {
+        let result = await edao.assistEvent(req.params.id, decoded.id)
+        res.status(201).send(result)
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Edits assistance of authenticated user for the event with matching id

@@ -106,6 +106,16 @@ class EventsDAO extends GenericDAO {
         }
 
     }
+
+    async assistEvent(eventId, userId) {
+        this._eventId = eventId
+        this._userId = userId
+
+        const [results] = await global.connection.promise()
+            .query("INSERT INTO assistance (event_id, user_id) VALUES (?, ?)", [this._eventId, this._userId])
+
+        return results;
+    }
 }
 
 module.exports = EventsDAO
