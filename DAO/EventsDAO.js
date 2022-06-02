@@ -165,6 +165,22 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
+    async editAssistance(eventId, userId, puntuation, comentary) {
+
+        this._eventId = eventId
+        this._userId = userId
+        this._puntuation = puntuation
+        this._comentary = comentary
+
+        const [results] = await global.connection.promise()
+            .query("UPDATE assistance SET puntuation = ?, comentary = ? WHERE event_id = ? AND user_id = ?", [this._puntuation, this._comentary, this._eventId, this._userId])
+
+        if (results.affectedRows > 0) {
+            return results
+        } else {
+            return "No assistances modified"
+        }
+    }
 }
 
 module.exports = EventsDAO
