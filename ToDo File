@@ -5,7 +5,5 @@ GET  /users/{id}/friends
 
 Events
 GET  /events/best
-GET  /events/{id}/assistances
-GET  /events/{event_id}/assistances/{user_id}
 PUT  /events/{id}/assistances
 DELETE  /events/{id}/assistances

@@ -116,6 +116,55 @@ class EventsDAO extends GenericDAO {
 
         return results;
     }
+
+
+    async getAssistances(eventId, userId) {
+        this._eventId = eventId
+        this._userId = userId
+
+        const [results] = await global.connection.promise()
+            .query("SELECT * FROM assistance WHERE event_id = ? AND user_id = ?", [this._eventId, this._userId])
+
+        if (results.length > 0) {
+            return results
+        } else {
+            return "No assistances found"
+        }
+    }
+
+    async getAssistancesByEventId(eventId) {
+        this._eventId = eventId
+
+        let queryUsers = "SELECT user_id FROM assistance WHERE event_id = ?"
+
+        const [resultUsersAssitance] = await global.connection.promise()
+            .query(queryUsers, [this._eventId])
+
+        let results = []
+
+        for (const user of resultUsersAssitance) {
+
+            let queryUser = "SELECT * FROM users WHERE id = ?"
+            const [resultUser] = await global.connection.promise().query(queryUser, [user.user_id])
+
+            let queryAssitance = "SELECT * FROM assistance WHERE event_id = ? AND user_id = ?"
+            const [resultAssistance] = await global.connection.promise().query(queryAssitance, [this._eventId, user.user_id])
+
+            const responseUser = {
+                id: resultUser[0].id,
+                name: resultUser[0].name,
+                last_name: resultUser[0].last_name,
+                puntuation: resultAssistance[0].puntuation,
+                comentary: resultAssistance[0].comentary
+            }
+
+            results.push(responseUser)
+
+        }
+
+        return results;
+    }
+
 }
 
 module.exports = EventsDAO

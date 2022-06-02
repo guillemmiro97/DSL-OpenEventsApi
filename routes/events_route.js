@@ -97,12 +97,22 @@ router.delete("/:id", async(req, res, next) => {
 
 //Gets all assistances for event with matching id
 router.get("/:id/assistances", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await edao.checkToken(req)) {
+        res.status(200).send(await edao.getAssistancesByEventId(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Gets assistance of user with matching id for event with matching id
 router.get("/:event_id/assistances/:user_id", async(req, res, next) => {
-    res.send("Waiting for implementation")
+
+    if (await edao.checkToken(req)) {
+        res.status(200).send(await edao.getAssistances(req.params.event_id, req.params.user_id))
+    } else {
+        res.sendStatus(401)
+    }
+
 })
 
 //Creates assistance of authenticated user for event with matching id
