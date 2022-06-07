@@ -17,7 +17,6 @@ class MessagesDAO extends GenericDAO {
         const [results] = await global.connection.promise()
             .query("INSERT INTO ?? (content, user_id_send, user_id_recived, timeStamp) VALUES (?, ?, ?, ?)", [this.tabla, this._message.content, this._message.user_id_send, this._message.user_id_recived, new Date()])
 
-
         if (results.affectedRows > 0) {
             let lastMessage = await this.getLastMessage()
             return lastMessage;
@@ -49,13 +48,9 @@ class MessagesDAO extends GenericDAO {
         if (results.length > 0) {
             return results
         } else {
-            return "No messages for the user authinticated"
+            return "No messages for the authenticated user"
         }
-
     }
-
-
-
 }
 
 module.exports = MessagesDAO

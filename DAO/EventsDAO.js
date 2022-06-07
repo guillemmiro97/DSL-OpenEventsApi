@@ -133,7 +133,6 @@ class EventsDAO extends GenericDAO {
         } else {
             return "No events found"
         }
-
     }
 
     /**
@@ -204,7 +203,6 @@ class EventsDAO extends GenericDAO {
             }
 
             results.push(responseUser)
-
         }
 
         if (results.length > 0) {
@@ -212,7 +210,6 @@ class EventsDAO extends GenericDAO {
         } else {
             return "No assistances found"
         }
-
     }
 
     /**
@@ -229,7 +226,6 @@ class EventsDAO extends GenericDAO {
         this._userId = userId
         this._puntuation = puntuation
         this._comentary = comentary
-
 
         let query = ""
 
