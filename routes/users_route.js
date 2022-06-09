@@ -173,7 +173,12 @@ router.get("/:id/assistances/finished", async(req, res, next) => {
 
 //get user friends by id
 router.get("/:id/friends", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.status(200).send(await udao.getUserFriends(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
+
 })
 
 module.exports = router;

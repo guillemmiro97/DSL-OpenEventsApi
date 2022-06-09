@@ -102,6 +102,11 @@ class UsersDAO extends GenericDAO {
 
     }
 
+    /**
+     * 
+     * @param {*} id 
+     * @returns get user statistics
+     */
     async getUserStatistics(id) {
         this._id = id
 
@@ -142,6 +147,32 @@ class UsersDAO extends GenericDAO {
 
     }
 
+    async getUserFriends(id) {
+        this._id = id
+
+        //He probado a cambiar el status a 0 para ver si funciona, pero nada. Please miralo , por que no veo el error
+        let query = `SELECT * FROM users WHERE id IN (SELECT user_id_friend as id FROM friends WHERE user_id = ? AND status = 1)`
+        const [results] = await global.connection.promise().query(query, [this._id])
+
+
+        if (results.length > 0) {
+            let resultsToReturn = []
+            let userToPush = {}
+            results.forEach(async user => {
+                userToPush.id = user.id
+                userToPush.name = user.name
+                userToPush.last_name = user.last_name
+                userToPush.email = user.email
+                userToPush.image = user.image
+
+                resultsToReturn.push(userToPush)
+            })
+            return resultsToReturn
+        } else {
+            return "No friends found"
+        }
+
+    }
 
 }
 
