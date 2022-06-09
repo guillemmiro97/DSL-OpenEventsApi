@@ -70,7 +70,11 @@ router.get("/:id", async(req, res, next) => {
 
 //get user statisticts by id
 router.get("/:id/statistics", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await udao.checkToken(req)) {
+        res.status(200).send(await udao.getUserStatistics(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //edit specified fields of the authenticated user

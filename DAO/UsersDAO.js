@@ -102,6 +102,45 @@ class UsersDAO extends GenericDAO {
 
     }
 
+    async getUserStatistics(id) {
+        this._id = id
+
+        this._users = await this.getAll()
+
+        let queryCommentsUserId = `SELECT COUNT(*) as user_coments , user_id FROM assistance WHERE user_id = ${this._id} AND comentary IS NOT NULL`
+        const [resultsCommentsUserId] = await global.connection.promise().query(queryCommentsUserId, [this._id])
+        let commentsUserID = resultsCommentsUserId[0]
+        let numberOfCommentsLower = 0
+
+        this._users.forEach(async user => {
+            if (user.id != this._id) {
+
+                let letQueryComments = `SELECT COUNT(*) AS user_coments, user_id FROM assistance WHERE user_id = ${user.id} AND comentary IS NOT NULL`
+                const [resultsComments] = await global.connection.promise().query(letQueryComments)
+                let comments = resultsComments[0]
+
+                if (commentsUserID.user_coments > comments.user_coments) {
+                    numberOfCommentsLower++
+                }
+
+            }
+        })
+
+        let percentage_below = (numberOfCommentsLower * 100) / this._users.length
+
+        let query = `SELECT COUNT(*) AS num_coments, AVG(puntuation) AS avg_score FROM assistance WHERE user_id = ?`
+        const [results] = await global.connection.promise().query(query, [this._id])
+
+        results[0].num_of_commenters_below = percentage_below
+
+
+        if (results.length > 0) {
+            return results
+        } else {
+            return "No statistics found"
+        }
+
+    }
 
 
 }

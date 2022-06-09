@@ -1,6 +1,6 @@
 Users
 
-GET  /users/{id}/statistics
+GET  /users/{id}/statistics --> Creo que done , pero no se como testearlo bien , please miralo
 GET  /users/{id}/friends
 
 Events
