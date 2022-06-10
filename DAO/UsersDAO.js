@@ -117,8 +117,8 @@ class UsersDAO extends GenericDAO {
         let commentsUserID = resultsCommentsUserId[0]
         let numberOfCommentsLower = 0
 
-        this._users.forEach(async user => {
-            if (user.id != this._id) {
+        for (const user of this._users) {
+            if (user.id !== this._id) {
 
                 let letQueryComments = `SELECT COUNT(*) AS user_coments, user_id FROM assistance WHERE user_id = ${user.id} AND comentary IS NOT NULL`
                 const [resultsComments] = await global.connection.promise().query(letQueryComments)
@@ -129,7 +129,7 @@ class UsersDAO extends GenericDAO {
                 }
 
             }
-        })
+        }
 
         let percentage_below = (numberOfCommentsLower * 100) / this._users.length
 

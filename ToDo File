@@ -1,8 +1,5 @@
 Users
-
-GET  /users/{id}/statistics --> Creo que done , pero no se como testearlo bien , please miralo
 GET  /users/{id}/friends --> ALmost done, no acabo de recuperar nada tiene que ser aalgun detalle
 
 Events
 GET  /events/best
-DELETE  /events/{id}/assistances --> funciona, pero no muestra nada la response. mirar por qué. 
