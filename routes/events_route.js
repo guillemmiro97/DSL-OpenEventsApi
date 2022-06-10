@@ -35,7 +35,11 @@ router.get("/", async(req, res, next) => {
 
 //Gets all future events in descending order based on the average score of the creator's old events.
 router.get("/best", async(req, res, next) => {
-    res.send("Waiting for implementation")
+    if (await edao.checkToken(req)) {
+        res.status(200).send(await edao.getBestEvents())
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 //Searches events with location, keyword in name, or date containing or matching the values of the query parameters.

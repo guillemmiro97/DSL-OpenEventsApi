@@ -64,6 +64,13 @@ class EventsDAO extends GenericDAO {
         return results;
     }
 
+    async getBestEvents() {
+        const [results] = await global.connection.promise()
+            .query("SELECT * FROM ?? WHERE eventStart_date > NOW() AND owner_id IN (SELECT user_id FROM assistance)", [this.tabla])
+
+        return results;
+    }
+
     /**
      * 
      * @param {*} event 

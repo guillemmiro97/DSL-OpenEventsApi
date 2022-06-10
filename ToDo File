@@ -1,5 +1,0 @@
-Users
-GET  /users/{id}/friends --> ALmost done, no acabo de recuperar nada tiene que ser aalgun detalle
-
-Events
-GET  /events/best
